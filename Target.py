@@ -1,6 +1,6 @@
 import pygame as pg
 from settings import *
-
+import random
 
 class Target:
     def __init__(self, game):
@@ -12,3 +12,9 @@ class Target:
 
     def draw(self):
         self.game.screen.blit(self.target_img, self.target_img_rect)
+        
+        
+    def update(self):
+        self.target_img_rect.left = random.randint(10, WIDTH)
+        self.target_img_rect.top = random.randint(10, HEIGHT)
+        

@@ -3,6 +3,7 @@ import sys
 from settings import *
 from Target import *
 import time
+from Menu import *
 
 
 class Game:
@@ -32,10 +33,10 @@ class Game:
         self.screen.blit(font, font_rect)
 
     def main_menu(self):
-        self.display_text("Click Me !", 500, HEIGHT/2 - 50)
-        self.display_text("Level 1", 500, HEIGHT/2)
-        self.display_text("Level 2", 500, HEIGHT/2 + 50)
-        self.display_text("Level 3", 500, HEIGHT/2 + 100)
+        self.menu = Menu(self, "Click Me ! -- Main Menu")
+        items_menu = ["Level 1", "Level 2"]
+        self.menu.init_items(items_menu)
+        self.menu.draw_menu()
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -47,7 +48,6 @@ class Game:
                     sys.exit()
                 if event.key == pg.K_1:
                     self.start_level_one()
-                # self.game_loop()
         pg.display.flip()
 
     def quit_game(self):

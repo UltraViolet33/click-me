@@ -9,6 +9,7 @@ class Game:
         pg.init()
         self.screen = pg.display.set_mode(RES)
         self.clock = pg.time.Clock()
+        self.font = pg.font.SysFont("forte", 20)
 
     def new_game(self):
         self.target = Target(self)
@@ -19,7 +20,18 @@ class Game:
     def draw(self):
         self.target.draw()
 
+    def display_text(self, text, coor_x, coor_y):
+        font = self.font.render(text, True, (255, 0, 0))
+        font_rect = font.get_rect()
+        font_rect.center = (coor_x, coor_y)
+        self.screen.blit(font, font_rect)
+
     def main_menu(self):
+        self.display_text("Click Me !", 500, HEIGHT/2 - 50)
+        self.display_text("Level 1", 500, HEIGHT/2)
+        self.display_text("Level 2", 500, HEIGHT/2 + 50)
+        self.display_text("Level 3", 500, HEIGHT/2 + 100)
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -53,7 +65,8 @@ class Game:
         for event in pg.event.get():
             if event.type == pg.MOUSEBUTTONUP:
                 pos = pg.mouse.get_pos()
-                self.target.update()
+                if self.target.target_img_rect.collidepoint(pos):
+                    self.target.update()
                 print(pos)
 
             if event.type == pg.QUIT:

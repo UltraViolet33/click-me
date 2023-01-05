@@ -4,7 +4,7 @@ from settings import *
 from Target import *
 import time
 from Menu import *
-
+from User import *
 
 class Game:
     count = 0
@@ -16,6 +16,7 @@ class Game:
         self.font = pg.font.SysFont("forte", 20)
         self.start_timestamp = 0
         self.end_timestmap = 0
+        self.user = User(self)
 
     def new_game(self):
         self.target = Target(self)
@@ -31,7 +32,38 @@ class Game:
         font_rect = font.get_rect()
         font_rect.center = (coor_x, coor_y)
         self.screen.blit(font, font_rect)
-
+        
+        
+    def display_user_menu(self):
+        print("ijjj")
+        self.user_menu = Menu(self, "Choose the user")
+        self.user_menu.init_items(["Create User", "Delete User"])
+        self.user_menu.draw_menu()
+        
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    pg.quit()
+                    sys.exit()
+                if event.key == pg.K_1:
+                    # self.start_level_one()
+                    print("create user")
+                    # self.create_user()
+                    self.user.create_user()
+                    
+        pg.display.flip()
+       
+        
+    def create_user(self):
+        while True:
+            self.screen.fill((0, 0, 0))
+            self.update()
+        
+        
+        
     def main_menu(self):
         self.menu = Menu(self, "Click Me ! -- Main Menu")
         items_menu = ["Level 1", "Level 2"]
@@ -64,7 +96,8 @@ class Game:
     def start_game(self):
         self.screen.fill((0, 0, 0))
         while True:
-            self.main_menu()
+            # self.main_menu()
+            self.display_user_menu()
             self.update()
             self.clock.tick(FPS)
 

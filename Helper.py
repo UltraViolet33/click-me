@@ -5,8 +5,8 @@ import sys
 class Helper:
 
     @staticmethod
-    def display_text(game, text, coor_x, coor_y):
-        font = game.font.render(text, True, (255, 0, 0))
+    def display_text(game, text, coor_x, coor_y, color=(255, 255, 255)):
+        font = game.font.render(text, True, color)
         font_rect = font.get_rect()
         font_rect.center = (coor_x, coor_y)
         game.screen.blit(font, font_rect)
@@ -14,11 +14,12 @@ class Helper:
     @staticmethod
     def display_input(game):
         font = pg.font.Font(None, 32)
-        input_rect = pg.Rect(200, 200, 140, 32)
+        input_rect = pg.Rect(300, 300, 140, 32)
         color = pg.Color('lightskyblue3')
         user_text = ""
         while True:
             game.screen.fill((0, 0, 0))
+            Helper.display_text(game, "Enter your pseudo:", 300, 200)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()

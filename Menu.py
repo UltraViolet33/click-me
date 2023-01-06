@@ -12,11 +12,11 @@ class Menu:
         self.items_menu = items_menu
 
     def draw_menu(self):
+        self.game.screen.fill(BLACK)
         first_coor_menu = HEIGHT/2
         Helper.display_text(self.game, self.main_text, WIDTH/2, HEIGHT/2 - 50)
-        for item in self.items_menu:
-
+        for index, item in enumerate(self.items_menu):
+            label = f"{index + 1} - {item}"
             Helper.display_text(
-                self.game, item, WIDTH/2, first_coor_menu)
+                self.game, label, WIDTH/2, first_coor_menu)
             first_coor_menu += 50
-

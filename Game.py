@@ -194,6 +194,10 @@ class Game:
                     if event.key == pg.K_ESCAPE:
                         pg.quit()
                         sys.exit()
+                    
+                    if event.key == pg.K_RETURN:
+                        Game.count = 0
+                        self.display_level_menu()
             pg.display.update()
 
 

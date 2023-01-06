@@ -10,7 +10,7 @@ class User:
 
     def create_user(self):
         new_user = Helper.display_input(self.game)
-        CSVHandler.write_csv_file({"user": new_user, "top_score": 0})
+        CSVHandler.write_csv_file({"user": new_user, "score": 0})
         return new_user
 
     def get_all_users(self):
@@ -24,3 +24,8 @@ class User:
             return current_user
         except IndexError:
             return False
+
+
+    def write_score(self, user, score):
+        data = {"user": user, "score": score}
+        CSVHandler.write_csv_file(data)

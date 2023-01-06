@@ -97,6 +97,7 @@ class Game:
         if current_user:
             menu_items = [
                 f"current user : {current_user}", "Choose game level"]
+            self.current_user = current_user
         else:
             menu_items = ["Create user"]
         main_menu.init_items(menu_items)
@@ -179,10 +180,11 @@ class Game:
 
     def display_result(self):
         self.end_timestmap = time.time()
-        time_score = self.end_timestmap - self.start_timestamp
+        time_score = round(self.end_timestmap - self.start_timestamp, 2)
         self.screen.fill((0, 0, 0))
-        text_score = f"Your score is {round(time_score, 2)} seconds !"
-        self.display_text(text_score, WIDTH/2, HEIGHT/2)
+        self.user.write_score(self.current_user, time_score)
+        text_score = f"Your score is {time_score} seconds !"
+        Helper.display_text(game, text_score, WIDTH/2, HEIGHT/2)
         while True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:

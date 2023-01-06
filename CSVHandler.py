@@ -5,7 +5,7 @@ class CSVHandler:
 
     @staticmethod
     def write_csv_file(data):
-        header = ["user", "top_score"]
+        header = ["user", "score"]
 
         with open("data.csv", "a") as f:
             writer = csv.DictWriter(f, fieldnames=header)

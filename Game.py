@@ -35,42 +35,40 @@ class Game:
     #     self.screen.blit(font, font_rect)
 
     def display_user_menu(self):
-        self.user_menu = Menu(self, "Choose the user")
-        menu_items = ["Create User", "Delete User"]
-        all_users = self.user.get_all_users()
-        all_users.extend(menu_items)
-        self.user_menu.init_items(all_users)
-        self.user_menu.draw_menu()
+        while True:
+            
+            user_menu = Menu(self, "User Menu")
+            items_menu = ["Create User", "Delete User"]
+            all_users = self.user.get_all_users()
+            all_users.extend(items_menu)
+            user_menu.init_items(all_users)
+            user_menu.draw_menu()
 
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-                sys.exit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
                     pg.quit()
                     sys.exit()
-                if event.key == pg.K_1:
-                    user_choice = 1
-                elif event.key == pg.K_2:
-                    user_choice = 2
-                elif event.key == pg.K_3:
-                    user_choice = 3
-                elif event.key == pg.K_4:
-                    user_choice = 4
-                elif event.key == pg.K_5:
-                    user_choice = 5
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        pg.quit()
+                        sys.exit()
+                    if event.key == pg.K_1:
+                        user_choice = 1
+                    elif event.key == pg.K_2:
+                        user_choice = 2
+                    elif event.key == pg.K_3:
+                        user_choice = 3
+                    elif event.key == pg.K_4:
+                        user_choice = 4
+                    elif event.key == pg.K_5:
+                        user_choice = 5
 
-                user_choice = all_users[user_choice]
-                if user_choice not in menu_items:
-                    pass
-                    print("create user")
-        pg.display.flip()
+                    user_choice = all_users[user_choice]
+                    if user_choice not in items_menu:
+                        pass
+                        print("create user")
+            pg.display.flip()
 
-    # def create_user(self):
-    #     while True:
-    #         self.screen.fill((0, 0, 0))
-    #         self.update()
 
     def display_level_menu(self):
         while True:
@@ -90,6 +88,7 @@ class Game:
                     if event.key == pg.K_1:
                         self.start_level_one()
             pg.display.flip()
+
 
     def main_menu(self):
         main_menu = Menu(self, "Main Menu")
@@ -114,8 +113,7 @@ class Game:
                 if event.key == pg.K_1 and not current_user:
                     self.user.create_user()
                 if event.key == pg.K_1 and current_user:
-                    # user menu
-                    pass
+                    self.display_user_menu()
                 if event.key == pg.K_2 and current_user:
                     self.display_level_menu()
 
@@ -129,6 +127,7 @@ class Game:
                     pg.quit()
                     sys.exit()
                 self.game_loop()
+
 
     def start_game(self):
         self.screen.fill((0, 0, 0))
@@ -194,11 +193,12 @@ class Game:
                     if event.key == pg.K_ESCAPE:
                         pg.quit()
                         sys.exit()
-                    
+
                     if event.key == pg.K_RETURN:
                         Game.count = 0
                         self.display_level_menu()
             pg.display.update()
+
 
 
 if __name__ == "__main__":

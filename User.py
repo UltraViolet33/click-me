@@ -14,7 +14,11 @@ class User:
         return new_user
 
     def get_all_users(self):
-        all_users = CSVHandler.read_all_data()
+        all_users = []
+        all_users_data = CSVHandler.read_all_data()
+        for user in all_users_data:
+            if user not in all_users:
+                all_users.append(user)
         return all_users
 
     def get_current_user(self):

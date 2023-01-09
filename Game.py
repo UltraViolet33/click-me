@@ -28,20 +28,13 @@ class Game:
     def draw(self):
         self.target.draw()
 
-    # def display_text(self, text, coor_x, coor_y):
-    #     font = self.font.render(text, True, (255, 0, 0))
-    #     font_rect = font.get_rect()
-    #     font_rect.center = (coor_x, coor_y)
-    #     self.screen.blit(font, font_rect)
-
     def display_user_menu(self):
         while True:
-            
             user_menu = Menu(self, "User Menu")
             items_menu = ["Create User", "Delete User"]
             all_users = self.user.get_all_users()
-            all_users.extend(items_menu)
-            user_menu.init_items(all_users)
+            items_menu.extend(all_users)
+            user_menu.init_items(items_menu)
             user_menu.draw_menu()
 
             for event in pg.event.get():
@@ -53,9 +46,10 @@ class Game:
                         pg.quit()
                         sys.exit()
                     if event.key == pg.K_1:
-                        user_choice = 1
+                        print("create user")
+                        self.user.create_user()
                     elif event.key == pg.K_2:
-                        user_choice = 2
+                        print("delete user")
                     elif event.key == pg.K_3:
                         user_choice = 3
                     elif event.key == pg.K_4:
@@ -66,9 +60,7 @@ class Game:
                     user_choice = all_users[user_choice]
                     if user_choice not in items_menu:
                         pass
-                        print("create user")
             pg.display.flip()
-
 
     def display_level_menu(self):
         while True:
@@ -88,7 +80,6 @@ class Game:
                     if event.key == pg.K_1:
                         self.start_level_one()
             pg.display.flip()
-
 
     def main_menu(self):
         main_menu = Menu(self, "Main Menu")
@@ -127,7 +118,6 @@ class Game:
                     pg.quit()
                     sys.exit()
                 self.game_loop()
-
 
     def start_game(self):
         self.screen.fill((0, 0, 0))
@@ -198,7 +188,6 @@ class Game:
                         Game.count = 0
                         self.display_level_menu()
             pg.display.update()
-
 
 
 if __name__ == "__main__":

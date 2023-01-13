@@ -1,5 +1,6 @@
 import pygame as pg
 import sys
+# from Game import *
 
 
 class Helper:
@@ -21,10 +22,7 @@ class Helper:
             game.screen.fill((0, 0, 0))
             Helper.display_text(game, "Enter your pseudo:", 300, 200)
             for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    pg.quit()
-                    sys.exit()
-
+                Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_BACKSPACE:
                         user_text = user_text[:-1]
@@ -39,3 +37,13 @@ class Helper:
             game.screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
             input_rect.w = max(100, text_surface.get_width()+10)
             pg.display.flip()
+
+    @staticmethod
+    def check_quit_game(event):
+        if event.type == pg.QUIT:
+            pg.quit()
+            sys.exit()
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_ESCAPE:
+                pg.quit()
+                sys.exit()

@@ -41,13 +41,8 @@ class User:
             user_menu.init_items(items_menu)
             user_menu.draw_menu()
             for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    pg.quit()
-                    sys.exit()
+                Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_ESCAPE:
-                        pg.quit()
-                        sys.exit()
                     if event.key == pg.K_1:
                         return items_menu[0]
                     elif event.key == pg.K_2:

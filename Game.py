@@ -37,13 +37,8 @@ class Game:
             user_menu.draw_menu()
 
             for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    pg.quit()
-                    sys.exit()
+                Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_ESCAPE:
-                        pg.quit()
-                        sys.exit()
                     if event.key == pg.K_1:
                         print("create user")
                         self.user.create_user()
@@ -53,12 +48,10 @@ class Game:
                     elif event.key == pg.K_3:
                         print("delete user")
                     elif event.key == pg.K_RETURN:
-                        
                         self.main_menu()
                         return
 
                 pg.display.flip()
-
 
     def display_level_menu(self):
         while True:
@@ -68,20 +61,18 @@ class Game:
             self.menu.draw_menu()
 
             for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    pg.quit()
-                    sys.exit()
+                Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_ESCAPE:
-                        pg.quit()
-                        sys.exit()
                     if event.key == pg.K_1:
                         self.start_level_one()
+                    if event.key == pg.K_RETURN:
+                        self.main_menu()
+                        return
             pg.display.flip()
 
     def main_menu(self):
         main_menu = Menu(self, "Main Menu")
-       
+
         if self.current_user:
             menu_items = [
                 f"current user : {self.current_user}", "Choose game level"]
@@ -91,31 +82,14 @@ class Game:
         main_menu.init_items(menu_items)
         main_menu.draw_menu()
         for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-                sys.exit()
+            Helper.check_quit_game(event)
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
-                    pg.quit()
-                    sys.exit()
-
                 if event.key == pg.K_1 and not self.current_user:
                     self.user.create_user()
                 if event.key == pg.K_1 and self.current_user:
                     self.display_user_menu()
                 if event.key == pg.K_2 and self.current_user:
                     self.display_level_menu()
-
-    def quit_game(self):
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-                sys.exit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
-                    pg.quit()
-                    sys.exit()
-                self.game_loop()
 
     def start_game(self):
         self.screen.fill((0, 0, 0))
@@ -134,14 +108,7 @@ class Game:
                     print(Game.count)
                 print(pos)
 
-            if event.type == pg.QUIT:
-                pg.quit()
-                sys.exit()
-
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
-                    pg.quit()
-                    sys.exit()
+            Helper.check_quit_game(event)
 
     def start_level_one(self):
         self.start_timestamp = time.time()
@@ -174,14 +141,8 @@ class Game:
         Helper.display_text(game, text_score, WIDTH/2, HEIGHT/2)
         while True:
             for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    pg.quit()
-                    sys.exit()
+                Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_ESCAPE:
-                        pg.quit()
-                        sys.exit()
-
                     if event.key == pg.K_RETURN:
                         Game.count = 0
                         self.display_level_menu()

@@ -18,6 +18,7 @@ class Game:
         self.start_timestamp = 0
         self.end_timestmap = 0
         self.user = User(self)
+        self.current_user = self.user.get_current_user()
 
     def new_game(self):
         self.target = Target(self)
@@ -31,9 +32,7 @@ class Game:
     def display_user_menu(self):
         while True:
             user_menu = Menu(self, "User Menu")
-            items_menu = ["Create User", "Delete User"]
-            all_users = self.user.get_all_users()
-            items_menu.extend(all_users)
+            items_menu = ["Create User", "Change user", "Delete User"]
             user_menu.init_items(items_menu)
             user_menu.draw_menu()
 
@@ -49,18 +48,17 @@ class Game:
                         print("create user")
                         self.user.create_user()
                     elif event.key == pg.K_2:
-                        print("delete user")
+                        print("change user")
+                        self.current_user = self.user.change_current_user()
                     elif event.key == pg.K_3:
-                        user_choice = 3
-                    elif event.key == pg.K_4:
-                        user_choice = 4
-                    elif event.key == pg.K_5:
-                        user_choice = 5
+                        print("delete user")
+                    elif event.key == pg.K_RETURN:
+                        
+                        self.main_menu()
+                        return
 
-                    user_choice = all_users[user_choice]
-                    if user_choice not in items_menu:
-                        pass
-            pg.display.flip()
+                pg.display.flip()
+
 
     def display_level_menu(self):
         while True:
@@ -83,11 +81,11 @@ class Game:
 
     def main_menu(self):
         main_menu = Menu(self, "Main Menu")
-        current_user = self.user.get_current_user()
-        if current_user:
+       
+        if self.current_user:
             menu_items = [
-                f"current user : {current_user}", "Choose game level"]
-            self.current_user = current_user
+                f"current user : {self.current_user}", "Choose game level"]
+
         else:
             menu_items = ["Create user"]
         main_menu.init_items(menu_items)
@@ -101,11 +99,11 @@ class Game:
                     pg.quit()
                     sys.exit()
 
-                if event.key == pg.K_1 and not current_user:
+                if event.key == pg.K_1 and not self.current_user:
                     self.user.create_user()
-                if event.key == pg.K_1 and current_user:
+                if event.key == pg.K_1 and self.current_user:
                     self.display_user_menu()
-                if event.key == pg.K_2 and current_user:
+                if event.key == pg.K_2 and self.current_user:
                     self.display_level_menu()
 
     def quit_game(self):

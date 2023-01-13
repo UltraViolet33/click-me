@@ -1,6 +1,7 @@
 import pygame as pg
 from Helper import *
 from CSVHandler import *
+from Menu import *
 
 
 class User:
@@ -29,7 +30,28 @@ class User:
         except IndexError:
             return False
 
-
     def write_score(self, user, score):
         data = {"user": user, "score": score}
         CSVHandler.write_csv_file(data)
+
+    def change_current_user(self):
+        while True:
+            user_menu = Menu(self.game, "Change User Menu")
+            items_menu = self.get_all_users()
+            user_menu.init_items(items_menu)
+            user_menu.draw_menu()
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        pg.quit()
+                        sys.exit()
+                    if event.key == pg.K_1:
+                        return items_menu[0]
+                    elif event.key == pg.K_2:
+                        return items_menu[1]
+                    elif event.key == pg.K_3:
+                        return items_menu[2]
+                pg.display.flip()

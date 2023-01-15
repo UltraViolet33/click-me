@@ -21,3 +21,19 @@ class CSVHandler:
                 all_data.append(row["user"])
 
         return all_data
+
+    @staticmethod
+    def delete_all_row(row_to_delete):
+        all_data = CSVHandler.read_all_data()
+        print(all_data)
+        # for i in range(len(all_data)):
+        #    if all_data[i]["user"] == row_to_delete:
+        #        all_data.remove(all_data[i])
+
+        # header = ["user", "score"]
+
+        # with open("data.csv", "w") as f:
+        #     writer = csv.DictWriter(f, fieldnames=header)
+        #     writer.writerow(all_data)
+        #     f.close()
+

@@ -76,3 +76,4 @@ class User:
     def delete_user(self):
         user_to_delete = self.choose_user_to_delete()
         print(user_to_delete)
+        CSVHandler.delete_all_row(user_to_delete)

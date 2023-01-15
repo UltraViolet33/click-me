@@ -46,7 +46,7 @@ class Game:
                         print("change user")
                         self.current_user = self.user.change_current_user()
                     elif event.key == pg.K_3:
-                        print("delete user")
+                        self.user.delete_user()
                     elif event.key == pg.K_RETURN:
                         self.main_menu()
                         return

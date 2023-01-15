@@ -50,3 +50,29 @@ class User:
                     elif event.key == pg.K_3:
                         return items_menu[2]
                 pg.display.flip()
+
+    def choose_user_to_delete(self):
+        while True:
+            delete_user_menu = Menu(self.game, "Delete a user")
+            items_menu = self.get_all_users()
+            delete_user_menu.init_items(items_menu)
+            delete_user_menu.draw_menu()
+
+            user_to_delete = 0
+
+            for event in pg.event.get():
+                Helper.check_quit_game(event)
+
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_1:
+                        return items_menu[0]
+                    if event.key == pg.K_2:
+                        return items_menu[1]
+                    if event.key == pg.K_3:
+                        return items_menu[2]
+                pg.display.flip()
+
+
+    def delete_user(self):
+        user_to_delete = self.choose_user_to_delete()
+        print(user_to_delete)

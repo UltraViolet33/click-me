@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-# from Game import *
+from settings import *
 
 
 class Helper:
@@ -14,26 +14,24 @@ class Helper:
 
     @staticmethod
     def display_input(game):
-        font = pg.font.Font(None, 32)
-        input_rect = pg.Rect(300, 300, 140, 32)
-        color = pg.Color('lightskyblue3')
+        input_rect = pg.Rect(450, 300, 140, 32)
         user_text = ""
         while True:
-            game.screen.fill((0, 0, 0))
-            Helper.display_text(game, "Enter your pseudo:", 300, 200)
+            game.screen.fill(BLACK)
+            Helper.display_text(game, "Enter your pseudo:",
+                                500, 200, color=WHITE)
             for event in pg.event.get():
                 Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_BACKSPACE:
                         user_text = user_text[:-1]
                     elif event.key == pg.K_RETURN:
-                        print(user_text)
                         return user_text
                     else:
                         user_text += event.unicode
 
-            pg.draw.rect(game.screen, color, input_rect)
-            text_surface = font.render(user_text, True, (255, 255, 255))
+            pg.draw.rect(game.screen, WHITE, input_rect)
+            text_surface = game.font.render(user_text, True, BLACK)
             game.screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
             input_rect.w = max(100, text_surface.get_width()+10)
             pg.display.flip()

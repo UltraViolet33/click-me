@@ -11,19 +11,18 @@ class User:
 
     def create_user(self):
         new_user = Helper.display_input(self.game)
-        # self.write_score(new_user, 0)
         return new_user
 
     def get_all_users(self):
         all_users = []
-        all_users_data = CSVHandler.read_all_data()
+        all_users_data = CSVHandler.get_all_rows(value="user")
         for user in all_users_data:
             if user not in all_users:
                 all_users.append(user)
         return all_users
 
     def get_current_user(self):
-        data = CSVHandler.read_all_data()
+        data = CSVHandler.get_all_rows(value="user")
         try:
             current_user = data[-1]
             return current_user
@@ -59,7 +58,6 @@ class User:
             delete_user_menu.draw_menu()
 
             user_to_delete = 0
-
             for event in pg.event.get():
                 Helper.check_quit_game(event)
 
@@ -75,9 +73,7 @@ class User:
 
     def delete_user(self):
         user_to_delete = self.choose_user_to_delete()
-        print(user_to_delete)
         CSVHandler.delete_all_row(user_to_delete)
-
 
     def get_10th_last_scores(self, user):
         last_scores = CSVHandler.get_all_data_by_row(row='user', value=user)

@@ -1,8 +1,7 @@
+import time
 import pygame as pg
-import sys
 from settings import *
 from Target import *
-import time
 from Menu import *
 from User import *
 
@@ -40,10 +39,8 @@ class Game:
                 Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_1:
-                        print("create user")
-                        self.current_user =  self.user.create_user()
+                        self.current_user = self.user.create_user()
                     elif event.key == pg.K_2:
-                        print("change user")
                         self.current_user = self.user.change_current_user()
                     elif event.key == pg.K_3:
                         self.user.delete_user()
@@ -51,7 +48,8 @@ class Game:
                         self.main_menu()
                         return
 
-                pg.display.flip()
+                # pg.display.flip()
+                self.update()
 
     def display_level_menu(self):
         while True:
@@ -68,14 +66,15 @@ class Game:
                     if event.key == pg.K_RETURN:
                         self.main_menu()
                         return
-            pg.display.flip()
+            # pg.display.flip()
+            self.update()
 
     def main_menu(self):
-        main_menu = Menu(self, "Main Menu")
+        main_menu = Menu(self, "Click Me - Main Menu")
 
         if self.current_user:
             menu_items = [
-                f"current user : {self.current_user}", "Choose game level"]
+                f"Current user : {self.current_user}", "Choose game level"]
 
         else:
             menu_items = ["Create user"]
@@ -105,10 +104,9 @@ class Game:
                 if self.target.target_img_rect.collidepoint(pos):
                     self.target.update()
                     Game.count += 1
-                    print(Game.count)
-                print(pos)
 
             Helper.check_quit_game(event)
+            
 
     def start_level_one(self):
         self.start_timestamp = time.time()
@@ -132,11 +130,11 @@ class Game:
                 self.update()
                 self.check_events()
 
-
     def display_results_menu(self, time_score):
         while True:
             self.menu = Menu(self, "Click Me ! -- Results Menu")
-            items_menu = [f"Your score: {time_score}- See all scores", "Go back to main menu"]
+            items_menu = [
+                f"Your score: {time_score}- See all scores", "Go back to main menu"]
             self.menu.init_items(items_menu)
             self.menu.draw_menu()
 
@@ -144,52 +142,44 @@ class Game:
                 Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_1:
-                        print("last scores")
                         self.display_10th_last_scores()
-                        return
                     if event.key == pg.K_2:
-                        self.start_game()
-                        return
-                    
-            pg.display.flip()
+                        self.start_game() 
+
+            # pg.display.flip()
+            self.update()
 
     def display_10th_last_scores(self):
         scores = self.user.get_10th_last_scores(self.current_user)
-        print(scores)
-
         while True:
             title = "Your 10th last scores"
             self.screen.fill((0, 0, 0))
-          
+
             first_coor_menu = 100
             Helper.display_text(self, title, WIDTH/2, 80 - 50)
             for score in scores:
-                
                 Helper.display_text(
-                self, score["score"], WIDTH/2, first_coor_menu)
+                    self, score["score"], WIDTH/2, first_coor_menu)
                 first_coor_menu += 50
             for event in pg.event.get():
                 Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_RETURN:
                         self.start_game()
-                        return
-            pg.display.flip()
-        
 
-
+            # pg.display.flip()
+            self.update()
 
     def display_result(self):
         self.end_timestmap = time.time()
         time_score = round(self.end_timestmap - self.start_timestamp, 2)
         self.screen.fill((0, 0, 0))
         self.user.write_score(self.current_user, time_score)
-        
         text_score = f"Your score is {time_score} seconds !"
         Helper.display_text(game, text_score, WIDTH/2, HEIGHT/2)
-        
         Game.count = 0
         self.display_results_menu(time_score)
+
 
 if __name__ == "__main__":
     game = Game()

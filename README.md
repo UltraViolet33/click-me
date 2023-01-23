@@ -1,3 +1,5 @@
 # Click Me
 
-A video game in Pygame
+A video game with Pygame
+
+Click as fast as possible !

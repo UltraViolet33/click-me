@@ -41,7 +41,7 @@ class Game:
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_1:
                         print("create user")
-                        self.user.create_user()
+                        self.current_user =  self.user.create_user()
                     elif event.key == pg.K_2:
                         print("change user")
                         self.current_user = self.user.change_current_user()
@@ -132,6 +132,26 @@ class Game:
                 self.update()
                 self.check_events()
 
+
+    def display_results_menu(self):
+        while True:
+            self.menu = Menu(self, "Click Me ! -- Results Menu")
+            items_menu = ["See your 10 last scores", "Go back to main menu"]
+            self.menu.init_items(items_menu)
+            self.menu.draw_menu()
+
+            for event in pg.event.get():
+                Helper.check_quit_game(event)
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_1:
+                        print("last scores")
+                    if event.key == pg.K_2:
+                        print("main menu")
+                        self.start_game()
+                        return
+                    
+            pg.display.flip()
+
     def display_result(self):
         self.end_timestmap = time.time()
         time_score = round(self.end_timestmap - self.start_timestamp, 2)
@@ -139,15 +159,9 @@ class Game:
         self.user.write_score(self.current_user, time_score)
         text_score = f"Your score is {time_score} seconds !"
         Helper.display_text(game, text_score, WIDTH/2, HEIGHT/2)
+        Game.count = 0
         while True:
-            for event in pg.event.get():
-                Helper.check_quit_game(event)
-                if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_RETURN:
-                        Game.count = 0
-                        self.display_level_menu()
-            pg.display.update()
-
+            self.display_results_menu()
 
 if __name__ == "__main__":
     game = Game()

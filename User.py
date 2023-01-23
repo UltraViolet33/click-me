@@ -11,7 +11,7 @@ class User:
 
     def create_user(self):
         new_user = Helper.display_input(self.game)
-        self.write_score(new_user, 0)
+        # self.write_score(new_user, 0)
         return new_user
 
     def get_all_users(self):

@@ -54,7 +54,7 @@ class Game:
     def display_level_menu(self):
         while True:
             self.menu = Menu(self, "Click Me ! -- Level Menu")
-            items_menu = ["Level 1", "Level 2"]
+            items_menu = ["Level 1"]
             self.menu.init_items(items_menu)
             self.menu.draw_menu()
 
@@ -99,7 +99,7 @@ class Game:
 
     def check_events(self):
         for event in pg.event.get():
-            if event.type == pg.MOUSEBUTTONUP and Game.count < 20:
+            if event.type == pg.MOUSEBUTTONUP:
                 pos = pg.mouse.get_pos()
                 if self.target.target_img_rect.collidepoint(pos):
                     self.target.update()
@@ -113,10 +113,10 @@ class Game:
         while True:
             self.new_game()
             while True:
-                self.screen.fill((0, 0, 0))
+                self.screen.fill(BLACK)
                 self.draw()
                 self.update()
-                if Game.count < 3:
+                if Game.count < 20:
                     self.check_events()
                 else:
                     self.display_result()

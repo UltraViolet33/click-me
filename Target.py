@@ -15,5 +15,7 @@ class Target:
         self.game.screen.blit(self.target_img, self.target_img_rect)
 
     def update(self):
-        self.target_img_rect.left = random.randint(10, WIDTH)
-        self.target_img_rect.top = random.randint(10, HEIGHT)
+        width = self.target_img_rect.w
+        height = self.target_img_rect.h
+        self.target_img_rect.left = random.randint(width, WIDTH - width)
+        self.target_img_rect.top = random.randint(height, HEIGHT - height)

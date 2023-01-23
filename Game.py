@@ -5,6 +5,8 @@ from Target import *
 from Menu import *
 from User import *
 
+target_image = "./images/target.png"
+brain_image = "./images/brain.png"
 
 class Game:
     count = 0
@@ -18,15 +20,28 @@ class Game:
         self.end_timestmap = 0
         self.user = User(self)
         self.current_user = self.user.get_current_user()
+        self.level_two = False
 
     def new_game(self):
-        self.target = Target(self)
+        self.target = Target(self, target_image)
+        if self.level_two:
+            self.brains = []
+            for i in range(4):
+                self.brains.append(Target(self, brain_image))
 
     def update(self):
         pg.display.flip()
+    
+    def update_target_and_brains(self):
+        self.target.update()
+        for brain in self.brains:
+            brain.update()
 
     def draw(self):
         self.target.draw()
+        if self.level_two:
+            for brain in self.brains:
+                brain.draw()
 
     def display_user_menu(self):
         while True:
@@ -39,7 +54,7 @@ class Game:
                 Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_1:
-                        self.current_user = self.user.create_user()
+                        self.user.create_user()
                     elif event.key == pg.K_2:
                         self.current_user = self.user.change_current_user()
                     elif event.key == pg.K_3:
@@ -48,13 +63,12 @@ class Game:
                         self.main_menu()
                         return
 
-                # pg.display.flip()
                 self.update()
 
     def display_level_menu(self):
         while True:
             self.menu = Menu(self, "Click Me ! -- Level Menu")
-            items_menu = ["Level 1"]
+            items_menu = ["Level 1", "Level 2"]
             self.menu.init_items(items_menu)
             self.menu.draw_menu()
 
@@ -63,10 +77,13 @@ class Game:
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_1:
                         self.start_level_one()
+                    if event.key == pg.K_2:
+                        self.level_two = True
+                        self.start_level_one()
                     if event.key == pg.K_RETURN:
                         self.main_menu()
                         return
-            # pg.display.flip()
+
             self.update()
 
     def main_menu(self):
@@ -102,7 +119,8 @@ class Game:
             if event.type == pg.MOUSEBUTTONUP:
                 pos = pg.mouse.get_pos()
                 if self.target.target_img_rect.collidepoint(pos):
-                    self.target.update()
+                    # self.target.update()
+                    self.update_target_and_brains()
                     Game.count += 1
 
             Helper.check_quit_game(event)

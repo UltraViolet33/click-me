@@ -9,6 +9,7 @@ class CSVHandler:
 
         with open("./data.csv", "a") as f:
             writer = csv.DictWriter(f, fieldnames=header)
+            writer.writeheader()
             writer.writerow(data)
             f.close()
 

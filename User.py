@@ -11,7 +11,7 @@ class User:
 
     def create_user(self):
         new_user = Helper.display_input(self.game)
-        return new_user
+        self.game.current_user = new_user
 
     def get_all_users(self):
         all_users = []

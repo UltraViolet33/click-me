@@ -4,12 +4,15 @@ import random
 
 
 class Target:
-    def __init__(self, game):
+    def __init__(self, game, image):
         self.game = game
-        self.target_img = pg.image.load("./images/target.png")
+        self.target_img = pg.image.load(image)
         self.target_img_rect = self.target_img.get_rect()
-        self.target_img_rect.left = WIDTH / 2
-        self.target_img_rect.top = HEIGHT / 2
+        self.width = self.target_img_rect.w
+        self.height = self.target_img_rect.h
+        
+        self.target_img_rect.left = random.randint(self.width, WIDTH - self.width)
+        self.target_img_rect.top = random.randint(self.height, HEIGHT - self.height)
 
     def draw(self):
         self.game.screen.blit(self.target_img, self.target_img_rect)

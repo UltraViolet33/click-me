@@ -29,8 +29,8 @@ class User:
         except IndexError:
             return False
 
-    def write_score(self, user, score):
-        data = {"user": user, "score": score}
+    def write_score(self, user, level, score):
+        data = {"user": user, "level": level, "score": score}
         CSVHandler.write_csv_file(data)
 
     def change_current_user(self):
@@ -69,7 +69,6 @@ class User:
                     if event.key == pg.K_3:
                         return items_menu[2]
                 pg.display.flip()
-
 
     def delete_user(self):
         user_to_delete = self.choose_user_to_delete()

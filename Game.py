@@ -8,6 +8,7 @@ from User import *
 target_image = "./images/target.png"
 brain_image = "./images/brain.png"
 
+
 class Game:
     count = 0
 
@@ -31,11 +32,12 @@ class Game:
 
     def update(self):
         pg.display.flip()
-    
+
     def update_target_and_brains(self):
         self.target.update()
-        for brain in self.brains:
-            brain.update()
+        if self.level_two:
+            for brain in self.brains:
+                brain.update()
 
     def draw(self):
         self.target.draw()
@@ -124,7 +126,6 @@ class Game:
                     Game.count += 1
 
             Helper.check_quit_game(event)
-            
 
     def start_level_one(self):
         self.start_timestamp = time.time()
@@ -134,7 +135,7 @@ class Game:
                 self.screen.fill(BLACK)
                 self.draw()
                 self.update()
-                if Game.count < 20:
+                if Game.count < 2:
                     self.check_events()
                 else:
                     self.display_result()
@@ -162,7 +163,7 @@ class Game:
                     if event.key == pg.K_1:
                         self.display_10th_last_scores()
                     if event.key == pg.K_2:
-                        self.start_game() 
+                        self.start_game()
 
             # pg.display.flip()
             self.update()
@@ -191,8 +192,9 @@ class Game:
     def display_result(self):
         self.end_timestmap = time.time()
         time_score = round(self.end_timestmap - self.start_timestamp, 2)
-        self.screen.fill((0, 0, 0))
-        self.user.write_score(self.current_user, time_score)
+        self.screen.fill(BLACK)
+        level = 2 if self.level_two else 1
+        self.user.write_score(self.current_user, level, time_score)
         text_score = f"Your score is {time_score} seconds !"
         Helper.display_text(game, text_score, WIDTH/2, HEIGHT/2)
         Game.count = 0

@@ -5,7 +5,7 @@ class CSVHandler:
 
     @staticmethod
     def write_csv_file(data):
-        header = ["user", "score"]
+        header = ["user", "level", "score"]
 
         with open("./data.csv", "a") as f:
             writer = csv.DictWriter(f, fieldnames=header)
@@ -45,7 +45,7 @@ class CSVHandler:
            if all_data[i]["user"] != row_to_delete:
                new_data.append(all_data[i])
             
-        header = ["user", "score"]
+        header = ["user", "level", "score"]
 
         with open("data.csv", "w") as f:
             writer = csv.DictWriter(f, fieldnames=header)

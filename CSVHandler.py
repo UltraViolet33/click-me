@@ -53,3 +53,15 @@ class CSVHandler:
             writer.writerows(new_data)
             f.close()
 
+    @staticmethod
+    def get_all_data_by_row(row, value):
+        data = []
+
+        with open("./data.csv", newline="") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # print(row)
+                if row["user"] == value:
+                    data.append(row)
+
+        return data

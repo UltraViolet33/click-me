@@ -133,10 +133,10 @@ class Game:
                 self.check_events()
 
 
-    def display_results_menu(self):
+    def display_results_menu(self, time_score):
         while True:
             self.menu = Menu(self, "Click Me ! -- Results Menu")
-            items_menu = ["See your 10 last scores", "Go back to main menu"]
+            items_menu = [f"Your score: {time_score}- See all scores", "Go back to main menu"]
             self.menu.init_items(items_menu)
             self.menu.draw_menu()
 
@@ -145,23 +145,51 @@ class Game:
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_1:
                         print("last scores")
+                        self.display_10th_last_scores()
+                        return
                     if event.key == pg.K_2:
-                        print("main menu")
                         self.start_game()
                         return
                     
             pg.display.flip()
+
+    def display_10th_last_scores(self):
+        scores = self.user.get_10th_last_scores(self.current_user)
+        print(scores)
+
+        while True:
+            title = "Your 10th last scores"
+            self.screen.fill((0, 0, 0))
+          
+            first_coor_menu = 100
+            Helper.display_text(self, title, WIDTH/2, 80 - 50)
+            for score in scores:
+                
+                Helper.display_text(
+                self, score["score"], WIDTH/2, first_coor_menu)
+                first_coor_menu += 50
+            for event in pg.event.get():
+                Helper.check_quit_game(event)
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_RETURN:
+                        self.start_game()
+                        return
+            pg.display.flip()
+        
+
+
 
     def display_result(self):
         self.end_timestmap = time.time()
         time_score = round(self.end_timestmap - self.start_timestamp, 2)
         self.screen.fill((0, 0, 0))
         self.user.write_score(self.current_user, time_score)
+        
         text_score = f"Your score is {time_score} seconds !"
         Helper.display_text(game, text_score, WIDTH/2, HEIGHT/2)
+        
         Game.count = 0
-        while True:
-            self.display_results_menu()
+        self.display_results_menu(time_score)
 
 if __name__ == "__main__":
     game = Game()

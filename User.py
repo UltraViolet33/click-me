@@ -77,3 +77,9 @@ class User:
         user_to_delete = self.choose_user_to_delete()
         print(user_to_delete)
         CSVHandler.delete_all_row(user_to_delete)
+
+
+    def get_10th_last_scores(self, user):
+        last_scores = CSVHandler.get_all_data_by_row(row='user', value=user)
+        # print(last_scores)
+        return last_scores[-10:]

@@ -57,7 +57,6 @@ class User:
             delete_user_menu.init_items(items_menu)
             delete_user_menu.draw_menu()
 
-            user_to_delete = 0
             for event in pg.event.get():
                 Helper.check_quit_game(event)
 
@@ -74,7 +73,7 @@ class User:
         user_to_delete = self.choose_user_to_delete()
         CSVHandler.delete_all_row(user_to_delete)
 
-    def get_10th_last_scores(self, user):
-        last_scores = CSVHandler.get_all_data_by_row(row='user', value=user)
-        # print(last_scores)
+    def get_10th_last_scores(self, user, level):
+        last_scores = CSVHandler.get_all_data_by_row(
+            level, value=user)
         return last_scores[-10:]

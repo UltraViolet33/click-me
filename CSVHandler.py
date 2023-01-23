@@ -9,7 +9,6 @@ class CSVHandler:
 
         with open("./data.csv", "a") as f:
             writer = csv.DictWriter(f, fieldnames=header)
-            writer.writeheader()
             writer.writerow(data)
             f.close()
 
@@ -54,13 +53,14 @@ class CSVHandler:
             f.close()
 
     @staticmethod
-    def get_all_data_by_row(row, value):
+    def get_all_data_by_row(level, value):
         data = []
 
         with open("./data.csv", newline="") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                if row["user"] == value:
+                print(row)
+                if row["user"] == value and row["level"] == str(level):
                     data.append(row)
             f.close()
 

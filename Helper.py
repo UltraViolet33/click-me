@@ -6,7 +6,7 @@ from settings import *
 class Helper:
 
     @staticmethod
-    def display_text(game, text, coor_x, coor_y, color=(255, 255, 255)):
+    def display_text(game, text, coor_x, coor_y, color=WHITE):
         font = game.font.render(text, True, color)
         font_rect = font.get_rect()
         font_rect.center = (coor_x, coor_y)

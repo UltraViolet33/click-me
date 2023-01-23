@@ -78,6 +78,7 @@ class Game:
                 Helper.check_quit_game(event)
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_1:
+                        self.level_two = False
                         self.start_level_one()
                     if event.key == pg.K_2:
                         self.level_two = True
@@ -110,7 +111,7 @@ class Game:
                     self.display_level_menu()
 
     def start_game(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.fill(BLACK)
         while True:
             self.main_menu()
             self.update()
@@ -121,7 +122,6 @@ class Game:
             if event.type == pg.MOUSEBUTTONUP:
                 pos = pg.mouse.get_pos()
                 if self.target.target_img_rect.collidepoint(pos):
-                    # self.target.update()
                     self.update_target_and_brains()
                     Game.count += 1
 
@@ -144,7 +144,7 @@ class Game:
         while True:
             self.new_game()
             while True:
-                self.screen.fill((0, 0, 0))
+                self.screen.fill(BLACK)
                 self.draw()
                 self.update()
                 self.check_events()
@@ -165,14 +165,14 @@ class Game:
                     if event.key == pg.K_2:
                         self.start_game()
 
-            # pg.display.flip()
             self.update()
 
     def display_10th_last_scores(self):
-        scores = self.user.get_10th_last_scores(self.current_user)
+        level = 2 if self.level_two else 1
+        scores = self.user.get_10th_last_scores(self.current_user, level=level)
         while True:
             title = "Your 10th last scores"
-            self.screen.fill((0, 0, 0))
+            self.screen.fill(BLACK)
 
             first_coor_menu = 100
             Helper.display_text(self, title, WIDTH/2, 80 - 50)
@@ -186,7 +186,6 @@ class Game:
                     if event.key == pg.K_RETURN:
                         self.start_game()
 
-            # pg.display.flip()
             self.update()
 
     def display_result(self):
@@ -195,12 +194,7 @@ class Game:
         self.screen.fill(BLACK)
         level = 2 if self.level_two else 1
         self.user.write_score(self.current_user, level, time_score)
-        text_score = f"Your score is {time_score} seconds !"
-        Helper.display_text(game, text_score, WIDTH/2, HEIGHT/2)
         Game.count = 0
         self.display_results_menu(time_score)
 
 
-if __name__ == "__main__":
-    game = Game()
-    game.start_game()
